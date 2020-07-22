@@ -23,6 +23,7 @@ var (
 	linux             = flag.Bool("l", false, "if set, will add linux/amd64 to the environments")
 	outputPath        = flag.String("o", "", "the output path")
 	windows           = flag.Bool("w", false, "if set, will add windows/amd64 to the environments")
+	tags              = flag.String("t", "", "the build tags")
 )
 
 func init() {
@@ -62,6 +63,14 @@ func main() {
 	var c *astibundler.Configuration
 	if err = json.NewDecoder(f).Decode(&c); err != nil {
 		l.Fatal(fmt.Errorf("unmarshaling configuration failed: %w", err))
+	}
+
+	// Build tags
+	if len(*tags) > 0 {
+		if len(c.BuildFlags) <= 0 {
+			c.BuildFlags = make(map[string]string)
+		}
+		c.BuildFlags["tags"] = *tags
 	}
 
 	// Astilectron path
