@@ -1,4 +1,4 @@
-module github.com/ewener/go-astilectron-bundler
+module github.com/asticode/go-astilectron-bundler
 
 go 1.13
 
